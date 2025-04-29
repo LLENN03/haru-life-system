@@ -6,9 +6,16 @@ client.once('ready', () => {
     console.log(`Haru is online as ${client.user.tag}`);
 });
 
-client.on('messageCreate', message => {
+client.on('messageCreate', async message => {
+    if (message.author.bot) return;
+
     if (message.content === '!ping') {
-        message.channel.send('pong! (테스트 성공 🟢)');
+        return message.channel.send('pong! (테스트 성공 🟢)');
+    }
+
+    // GPT 대화 예시
+    if (message.content.startsWith('하루야') || message.mentions.has(client.user)) {
+        message.channel.send('GPT 대화 기능이 곧 연결됩니다... 🤖');
     }
 });
 
