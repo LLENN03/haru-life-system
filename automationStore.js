@@ -34,7 +34,27 @@ async function saveAutomationRule(rule) {
   return ref.id;
 }
 
+// ✅ 테스트용: 특정 문서 직접 접근해서 존재 여부 확인
+async function testDirectDocAccess() {
+  try {
+    const doc = await db.collection(COLLECTION_NAME).doc('weekly_model_check').get();
+    if (doc.exists) {
+      console.log('✅ [테스트] 개별 문서 접근 성공:', doc.id, doc.data());
+    } else {
+      console.warn('⚠️ [테스트] 문서 존재하지 않음');
+    }
+  } catch (err) {
+    console.error('❌ [테스트] 개별 문서 접근 실패:', err);
+  }
+}
+
+// ❗ 이 함수는 index.js에서 한 번 실행해줘야 해!
+// 예: index.js 맨 아래에
+// const { testDirectDocAccess } = require('./automationStore');
+// testDirectDocAccess();
+
 module.exports = {
   getAllAutomationRules,
   saveAutomationRule,
+  testDirectDocAccess, // 👈 추가!
 };
