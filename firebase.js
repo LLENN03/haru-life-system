@@ -7,7 +7,9 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json'); // 키 파일 이름이 이 파일과 동일해야 함
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
+  projectId: serviceAccount.project_id,
+  databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`
 });
 
 module.exports = admin.firestore();
