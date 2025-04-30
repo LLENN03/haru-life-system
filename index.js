@@ -135,5 +135,7 @@ client.on(Events.MessageCreate, async message => {
   }
 });
 
-
 client.login(process.env.DISCORD_BOT_TOKEN);
+
+const { testDirectDocAccess } = require('./automationStore');
+testDirectDocAccess();
