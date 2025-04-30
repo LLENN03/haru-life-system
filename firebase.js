@@ -15,3 +15,4 @@ try {
 }
 
 module.exports = admin.firestore(); // 정확히 이렇게 되어야 함
+console.log('프로젝트 ID:', admin.app().options.credential.projectId);
