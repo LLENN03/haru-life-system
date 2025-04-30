@@ -4,13 +4,14 @@ const COLLECTION_NAME = 'automation_rules';
 
 async function getAllAutomationRules() {
   try {
-    console.log('📡 Firestore 연결 테스트: automation_rules 컬렉션 조회 시작');
+    console.log(`📡 Firestore 연결 테스트 시작 (${COLLECTION_NAME})`);
+
     const snapshot = await db.collection(COLLECTION_NAME).get();
-    console.log('✅ [자동화 규칙] 문서 개수:', snapshot.size); // 🔍 추가
+    console.log('✅ [자동화 규칙] 문서 개수:', snapshot.size);
 
     const rules = [];
     snapshot.forEach((doc) => {
-      console.log('📄 [자동화 규칙] 문서 로드됨:', doc.id, doc.data()); // 🔍 추가
+      console.log('📘 규칙 문서:', doc.id, doc.data());
       rules.push(doc.data());
     });
 
