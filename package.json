@@ -1,17 +1,13 @@
 {
   "name": "haru-bot",
-  "version": "1.0.0",
-  "description": "우리 전용 집사",
+  "version": "1.0.3",
   "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "start": "node index.js"
-  },
+  "type": "module",
   "dependencies": {
+    "discord.js": "^14.11.0",
+    "openai": "^4.16.1"
     "node-cron": "^3.0.2",
     "firebase-admin": "^11.10.1",
-    "discord.js": "^14.11.0",
     "luxon": "^3.4.3",
-    "openai": "^4.14.0"
   }
 }
