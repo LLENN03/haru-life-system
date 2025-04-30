@@ -1,4 +1,4 @@
-// 📁 automationStore.js
+// automationStore.js
 const axios = require('axios');
 
 const COLLECTION_NAME = 'automation_rules';
@@ -42,7 +42,14 @@ async function saveAutomationRule(rule) {
   throw new Error('⚠️ saveAutomationRule은 REST API 미구현');
 }
 
+// ✅ 여기 추가
+async function testDirectDocAccess() {
+  console.log('🔍 [테스트] 문서 목록 불러오기 시작');
+  await getAllAutomationRules();
+}
+
 module.exports = {
   getAllAutomationRules,
   saveAutomationRule,
+  testDirectDocAccess // ✅ export 추가
 };
