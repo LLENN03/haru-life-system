@@ -102,31 +102,30 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on(Events.MessageCreate, async message => {
   if (message.author.bot) return;
 
-  const isInTodo = message.channel.name === TODO_CHANNEL_NAME;
-  const isInHaruCategory = message.channel.parent && message.channel.parent.name === HARU_CATEGORY_NAME;
+  const excluded = ['공지', '비용-보고서', '하루-시스템로그'];
+  if (excluded.includes(message.channel.name)) return;
 
-  if (isInTodo) {
-    console.log(`[할일 기록 감지] ${message.author.username}: ${message.content}`);
-    // TODO: 자동 저장 → Firebase 연동 후 처리
-  }
+  const userMessage = message.content.replace(/<@!?\d+>/, '').trim();
+  if (userMessage.length === 0) return;
 
-  if (isInHaruCategory || message.mentions.has(client.user)) {
-    const userMessage = message.content.replace(/<@!?\d+>/, '').trim();
-    if (userMessage.length === 0) return;
-    await message.channel.sendTyping();
-    try {
-      const selectedModel = await getBestModel();
-      const completion = await openai.chat.completions.create({
-        model: selectedModel,
-        messages: [{ role: 'user', content: userMessage }],
-      });
+  await message.channel.sendTyping();
 
-      await message.reply(completion.choices[0].message.content);
-    } catch (err) {
-      console.error(err);
-      await message.reply('죄송해요, 지금은 대답을 못하고 있어요.');
-    }
+  try {
+    const selectedModel = await getBestModel();
+    const completion = await openai.chat.completions.create({
+      model: selectedModel,
+      messages: [
+        { role: 'system', content: '당신은 중년의 만능 집사 Haru입니다.' },
+        { role: 'user', content: userMessage }
+      ]
+    });
+
+    await message.reply(completion.choices[0].message.content);
+  } catch (err) {
+    console.error(err);
+    await message.reply('죄송합니다, 오류 상태입니다.');
   }
 });
+
 
 client.login('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GigUQw.eR2X1JVcuT9TQ8zCiHA6emyNPFGdhQm_n2d-hY');
