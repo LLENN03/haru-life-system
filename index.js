@@ -2,6 +2,8 @@ const { Client, GatewayIntentBits, Events, Collection, REST, Routes } = require(
 const fs = require('node:fs');
 const path = require('node:path');
 const OpenAI = require('openai');
+const startScheduler = require('./scheduler');
+const { handleAutomationMessage } = require('./autoRouter');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 client.commands = new Collection();
@@ -49,7 +51,10 @@ const HARU_CATEGORY_NAME = "하루 집사";
 client.once(Events.ClientReady, async () => {
   console.log(`✅ Haru is online as ${client.user.tag}`);
 
-  const rest = new REST({ version: '10' }).setToken('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GigUQw.eR2X1JVcuT9TQ8zCiHA6emyNPFGdhQm_n2d-hY');
+  // 🔁 스케줄러 시작
+  startScheduler(client); // ✅ 이 줄 추가
+
+  const rest = new REST({ version: '10' }).setToken('...');
   try {
     console.log('🔄 Registering slash commands...');
     await rest.put(
@@ -104,6 +109,9 @@ client.on(Events.MessageCreate, async message => {
 
   const excluded = ['공지', '비용-보고서', '하루-시스템로그'];
   if (excluded.includes(message.channel.name)) return;
+
+  // ✅ 자동화 명령 처리 먼저 수행
+  if (await handleAutomationMessage(message)) return;
 
   const userMessage = message.content.replace(/<@!?\d+>/, '').trim();
   if (userMessage.length === 0) return;
