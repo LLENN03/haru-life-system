@@ -21,9 +21,7 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
-const openai = new OpenAI({
-  apiKey: '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',
-});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const modelPriority = ['gpt-4o', 'gpt-4-turbo', 'gpt-4'];
 
@@ -56,11 +54,11 @@ client.once(Events.ClientReady, async () => {
   // 🔁 스케줄러 시작
   startScheduler(client); // ✅ 이 줄 추가
 
-  const rest = new REST({ version: '10' }).setToken('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GILEXO.6OCiDWBKgxT-Ibg-xyf8BQo1dMp7-H094oP-go');
+  const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN);
   try {
     console.log('🔄 Registering slash commands...');
     await rest.put(
-      Routes.applicationGuildCommands(client.user.id, '1366991158374305824'),
+      Routes.applicationGuildCommands(client.user.id, process.env.GUILD_ID),
       { body: commands },
     );
     console.log('✅ Slash commands registered successfully.');
@@ -83,7 +81,7 @@ cron.schedule('0 9 * * 1', async () => {
     newModels.forEach(m => knownModels.add(m));
 
     if (newModels.length > 0) {
-      const channel = client.channels.cache.get('1366991162103169057');
+      const channel = client.channels.cache.get(process.env.ANNOUNCE_CHANNEL_ID);
       if (channel) {
         channel.send(`📢 도련님, 새로운 GPT 모델이 나왔습니다: \n\`\`\`${newModels.join('\n')}\`\`\``);
       }
@@ -138,4 +136,4 @@ client.on(Events.MessageCreate, async message => {
 });
 
 
-client.login('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GILEXO.6OCiDWBKgxT-Ibg-xyf8BQo1dMp7-H094oP-go');
+client.login(process.env.DISCORD_BOT_TOKEN);
