@@ -11,11 +11,17 @@ async function getAllAutomationRules() {
 
     const rules = [];
     snapshot.forEach((doc) => {
-      console.log('📘 규칙 문서:', doc.id, doc.data());
-      rules.push(doc.data());
+      try {
+        const data = doc.data();
+        console.log('📘 규칙 문서:', doc.id, data);
+        rules.push(data);
+      } catch (innerErr) {
+        console.error(`❌ [문서 파싱 실패] ${doc.id}:`, innerErr);
+      }
     });
 
     return rules;
+
   } catch (err) {
     console.error('❌ [자동화 규칙] Firestore 규칙 로딩 실패:', err);
     throw err;
