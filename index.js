@@ -136,4 +136,4 @@ client.on(Events.MessageCreate, async message => {
 });
 
 
-client.login('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GigUQw.eR2X1JVcuT9TQ8zCiHA6emyNPFGdhQm_n2d-hY');
+client.login('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GILEXO.6OCiDWBKgxT-Ibg-xyf8BQo1dMp7-H094oP-go');
