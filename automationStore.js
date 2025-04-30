@@ -4,6 +4,7 @@ const COLLECTION_NAME = 'automation_rules';
 
 async function getAllAutomationRules() {
   try {
+    console.log('📡 Firestore 연결 테스트: automation_rules 컬렉션 조회 시작');
     const snapshot = await db.collection(COLLECTION_NAME).get();
     console.log('✅ [자동화 규칙] 문서 개수:', snapshot.size); // 🔍 추가
 
