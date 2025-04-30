@@ -3,18 +3,6 @@ const db = require('./firebase');
 const COLLECTION_NAME = 'automation_rules';
 
 async function getAllAutomationRules() {
-  console.log('📥 Firestore에서 automation_rules 컬렉션 조회 시도');
-  const snapshot = await db.collection('automation_rules').get();
-  const rules = [];
-  snapshot.forEach((doc) => {
-    console.log('📘 규칙 문서:', doc.id, doc.data());
-    rules.push(doc.data());
-  });
-  return rules;
-}
-
-
-async function getAllAutomationRules() {
   try {
     const snapshot = await db.collection(COLLECTION_NAME).get();
     console.log('✅ [자동화 규칙] 문서 개수:', snapshot.size); // 🔍 추가
