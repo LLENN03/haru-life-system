@@ -21,6 +21,22 @@ const openai = new OpenAI({
   apiKey: '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',
 });
 
+// ✅ 최신 GPT 모델 자동 선택 함수
+async function getBestModel() {
+  try {
+    const list = await openai.models.list();
+    const gptModels = list.data
+      .map((m) => m.id)
+      .filter((id) => id.startsWith('gpt-4'))
+      .sort((a, b) => b.localeCompare(a)); // 최신 순 정렬
+    return gptModels[0] || 'gpt-3.5-turbo';
+  } catch (error) {
+    console.error('모델 목록을 불러오지 못했습니다:', error);
+    return 'gpt-3.5-turbo';
+  }
+}
+
+
 const TODO_CHANNEL_NAME = "할일";
 const HARU_CATEGORY_NAME = "하루 집사";
 
@@ -68,8 +84,9 @@ client.on(Events.MessageCreate, async message => {
     if (userMessage.length === 0) return;
     await message.channel.sendTyping();
     try {
+      const selectedModel = await getBestModel(); // ← 자동 선택
       const completion = await openai.chat.completions.create({
-        model: 'gpt-4',
+        model: selectedModel,
         messages: [{ role: 'user', content: userMessage }],
       });
       await message.reply(completion.choices[0].message.content);
