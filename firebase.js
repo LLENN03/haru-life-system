@@ -17,11 +17,6 @@ try {
 
   firestore = admin.firestore();
 
-  // 🔥 (비권장) 리전 우회 설정 - 임시 실험용
-  firestore.settings({
-    host: `${serviceAccount.project_id}.asia-southeast1.firebasedatabase.app`,
-    ssl: true,
-  });
 
 } catch (err) {
   console.error('❌ Firebase Admin 초기화 실패:', err);
