@@ -18,7 +18,7 @@ for (const file of commandFiles) {
 }
 
 const openai = new OpenAI({
-  apiKey: 'YOUR_OPENAI_API_KEY',
+  apiKey: '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',
 });
 
 const TODO_CHANNEL_NAME = "할일";
@@ -27,11 +27,11 @@ const HARU_CATEGORY_NAME = "하루 집사";
 client.once(Events.ClientReady, async () => {
   console.log(`✅ Haru is online as ${client.user.tag}`);
 
-  const rest = new REST({ version: '10' }).setToken('YOUR_DISCORD_BOT_TOKEN');
+  const rest = new REST({ version: '10' }).setToken('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GigUQw.eR2X1JVcuT9TQ8zCiHA6emyNPFGdhQm_n2d-hY');
   try {
     console.log('🔄 Registering slash commands...');
     await rest.put(
-      Routes.applicationGuildCommands(client.user.id, 'YOUR_GUILD_ID'),
+      Routes.applicationGuildCommands(client.user.id, '1272863103511433267'),
       { body: commands },
     );
     console.log('✅ Slash commands registered successfully.');
@@ -80,4 +80,4 @@ client.on(Events.MessageCreate, async message => {
   }
 });
 
-client.login('YOUR_DISCORD_BOT_TOKEN');
+client.login('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GigUQw.eR2X1JVcuT9TQ8zCiHA6emyNPFGdhQm_n2d-hY');
