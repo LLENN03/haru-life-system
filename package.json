@@ -8,6 +8,5 @@
     "openai": "^4.16.1"
     "node-cron": "^3.0.2",
     "firebase-admin": "^11.10.1",
-    "luxon": "^3.4.3",
   }
 }
