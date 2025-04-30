@@ -53,7 +53,7 @@ client.once(Events.ClientReady, async () => {
   try {
     console.log('🔄 Registering slash commands...');
     await rest.put(
-      Routes.applicationGuildCommands(client.user.id, '1272863103511433267'),
+      Routes.applicationGuildCommands(client.user.id, '1366991158374305824'),
       { body: commands },
     );
     console.log('✅ Slash commands registered successfully.');
