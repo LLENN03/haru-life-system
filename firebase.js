@@ -1,11 +1,10 @@
 // 📁 firebase.js
 // Firebase Admin SDK 초기화 모듈
-var admin = require("firebase-admin");
+const admin = require('firebase-admin');
 
-var serviceAccount = require("./haru-life-system-firebase-adminsdk-fbsvc-e8434c1739.json");
+// 도련님이 제공하신 service account 키 경로 또는 환경변수로부터 로딩
+const serviceAccount = require('./haru-life-system-firebase-adminsdk-fbsvc-e8434c1739.json'); // 키 파일 이름이 이 파일과 동일해야 함
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
 });
-
-module.exports = admin.firestore();
