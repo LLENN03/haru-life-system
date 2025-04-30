@@ -8,8 +8,6 @@ const serviceAccount = require('./haru-life-system-firebase-adminsdk-fbsvc-e8434
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  projectId: serviceAccount.project_id,
-  databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`
 });
 
 module.exports = admin.firestore();
