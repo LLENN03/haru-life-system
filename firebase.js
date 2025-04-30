@@ -8,3 +8,5 @@ const serviceAccount = require('./haru-life-system-firebase-adminsdk-fbsvc-e8434
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
+
+module.exports = admin.firestore(); // 정확히 이렇게 되어야 함
