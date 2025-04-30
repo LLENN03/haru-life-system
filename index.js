@@ -1,3 +1,5 @@
+require('dotenv').config(); // .env 설정을 읽어옵니다
+
 const { Client, GatewayIntentBits, Events, Collection, REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
