@@ -1,8 +1,7 @@
-
 const { Client, GatewayIntentBits, Events, Collection, REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
-const { Configuration, OpenAIApi } = require('openai');
+const OpenAI = require('openai');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 client.commands = new Collection();
@@ -18,8 +17,9 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
-const configuration = new Configuration({ apiKey: 'YOUR_OPENAI_API_KEY' });
-const openai = new OpenAIApi(configuration);
+const openai = new OpenAI({
+  apiKey: 'YOUR_OPENAI_API_KEY',
+});
 
 const TODO_CHANNEL_NAME = "할일";
 const HARU_CATEGORY_NAME = "하루 집사";
@@ -68,11 +68,11 @@ client.on(Events.MessageCreate, async message => {
     if (userMessage.length === 0) return;
     await message.channel.sendTyping();
     try {
-      const completion = await openai.createChatCompletion({
+      const completion = await openai.chat.completions.create({
         model: 'gpt-4',
-        messages: [{ role: 'user', content: userMessage }]
+        messages: [{ role: 'user', content: userMessage }],
       });
-      await message.reply(completion.data.choices[0].message.content);
+      await message.reply(completion.choices[0].message.content);
     } catch (err) {
       console.error(err);
       await message.reply('죄송해요, 지금은 대답을 못하고 있어요.');
