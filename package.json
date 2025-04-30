@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "discord.js": "^14.11.0",
-    "openai": "^4.16.1"
+    "openai": "^4.16.1",
+    "node-cron": "^3.0.2"
   }
 }
