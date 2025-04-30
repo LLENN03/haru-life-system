@@ -21,20 +21,26 @@ const openai = new OpenAI({
   apiKey: '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',
 });
 
-// ✅ 최신 GPT 모델 자동 선택 함수
+const modelPriority = ['gpt-4o', 'gpt-4-turbo', 'gpt-4'];
+
 async function getBestModel() {
   try {
     const list = await openai.models.list();
-    const gptModels = list.data
-      .map((m) => m.id)
-      .filter((id) => id.startsWith('gpt-4'))
-      .sort((a, b) => b.localeCompare(a)); // 최신 순 정렬
-    return gptModels[0] || 'gpt-3.5-turbo';
+    const available = list.data.map(m => m.id);
+
+    for (const model of modelPriority) {
+      if (available.includes(model)) return model;
+    }
+
+    // fallback 자동 정렬
+    const gptModels = available.filter(id => id.startsWith('gpt-4'));
+    return gptModels.sort().reverse()[0] || 'gpt-3.5-turbo';
   } catch (error) {
-    console.error('모델 목록을 불러오지 못했습니다:', error);
+    console.error('모델 선택 실패:', error);
     return 'gpt-3.5-turbo';
   }
 }
+
 
 
 const TODO_CHANNEL_NAME = "할일";
@@ -55,6 +61,31 @@ client.once(Events.ClientReady, async () => {
     console.error('❌ Error registering slash commands:', error);
   }
 });
+
+// 매주 월요일 오전 9시에 모델 목록 확인 (Asia/Seoul 기준)
+const cron = require('node-cron');
+const knownModels = new Set(); // 처음엔 비어 있음
+
+cron.schedule('0 9 * * 1', async () => {
+  try {
+    const list = await openai.models.list();
+    const newModels = list.data
+      .map(m => m.id)
+      .filter(id => id.startsWith('gpt-4') && !knownModels.has(id));
+
+    newModels.forEach(m => knownModels.add(m));
+
+    if (newModels.length > 0) {
+      const channel = client.channels.cache.get('공지');
+      if (channel) {
+        channel.send(`📢 도련님, 새로운 GPT 모델이 나왔습니다: \n\`\`\`${newModels.join('\n')}\`\`\``);
+      }
+    }
+  } catch (err) {
+    console.error('모델 자동 감지 실패:', err);
+  }
+});
+
 
 client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand()) return;
@@ -84,11 +115,12 @@ client.on(Events.MessageCreate, async message => {
     if (userMessage.length === 0) return;
     await message.channel.sendTyping();
     try {
-      const selectedModel = await getBestModel(); // ← 자동 선택
+      const selectedModel = await getBestModel();
       const completion = await openai.chat.completions.create({
         model: selectedModel,
         messages: [{ role: 'user', content: userMessage }],
       });
+
       await message.reply(completion.choices[0].message.content);
     } catch (err) {
       console.error(err);
