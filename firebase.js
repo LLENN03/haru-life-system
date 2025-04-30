@@ -4,7 +4,7 @@
 const admin = require('firebase-admin');
 
 // 도련님이 제공하신 service account 키 경로 또는 환경변수로부터 로딩
-const serviceAccount = require('./serviceAccountKey.json'); // 키 파일 이름이 이 파일과 동일해야 함
+const serviceAccount = require('haru-life-system-firebase-adminsdk-fbsvc-e8434c1739.json'); // 키 파일 이름이 이 파일과 동일해야 함
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
