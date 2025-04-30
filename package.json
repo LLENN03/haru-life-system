@@ -1,14 +1,10 @@
 {
-  "name": "haru-life-bot",
-  "version": "1.0.0",
-  "description": "Haru Discord Bot",
+  "name": "haru-bot",
+  "version": "1.0.3",
   "main": "index.js",
-  "scripts": {
-    "start": "node server.js & node index.js"
-  },
+  "type": "module",
   "dependencies": {
     "discord.js": "^14.11.0",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2"
+    "openai": "^4.16.1"
   }
 }
