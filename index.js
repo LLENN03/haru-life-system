@@ -54,7 +54,7 @@ client.once(Events.ClientReady, async () => {
   // 🔁 스케줄러 시작
   startScheduler(client); // ✅ 이 줄 추가
 
-  const rest = new REST({ version: '10' }).setToken('...');
+  const rest = new REST({ version: '10' }).setToken('MTM2NjcwNjQ1ODMwNDk3MDc2Mw.GILEXO.6OCiDWBKgxT-Ibg-xyf8BQo1dMp7-H094oP-go');
   try {
     console.log('🔄 Registering slash commands...');
     await rest.put(
@@ -81,7 +81,7 @@ cron.schedule('0 9 * * 1', async () => {
     newModels.forEach(m => knownModels.add(m));
 
     if (newModels.length > 0) {
-      const channel = client.channels.cache.get('공지');
+      const channel = client.channels.cache.get('1366991162103169057');
       if (channel) {
         channel.send(`📢 도련님, 새로운 GPT 모델이 나왔습니다: \n\`\`\`${newModels.join('\n')}\`\`\``);
       }
