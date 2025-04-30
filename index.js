@@ -107,7 +107,7 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on(Events.MessageCreate, async message => {
   if (message.author.bot) return;
 
-  const excluded = ['공지', '비용-보고서', '하루-시스템로그'];
+  const excluded = ['공지', '비용-보고', '하루-시스템로그'];
   if (excluded.includes(message.channel.name)) return;
 
   // ✅ 자동화 명령 처리 먼저 수행
